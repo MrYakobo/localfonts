@@ -35,12 +35,12 @@
     </style>
 </head>
 
-<body :class="['ff-1', {'overflow-hidden': gfonts}]">
-    <div id="app">
+<body class="ff-1">
+    <div id="app" :class="{'overflow-hidden': gfonts}">
         <p class="f1 mb3 mt4 tc">localfonts</p>
         <p class="f4 gray ma2 tc">{{user_or_all_fonts.length}} fonts</p>
         <div class="tc">
-            <label class="f6 v-mid">Only custom fonts (~/.local/share/fonts/)<input class="v-mid ml2" type="checkbox" v-model="filter_user_installed"></label>
+            <label class="f6 v-mid">Show only custom fonts (~/.local/share/fonts/)<input class="v-mid ml2" type="checkbox" v-model="filter_user_installed"></label>
         </div>
         <div class="tc pb3 mt4 mb4 ph3 dt center ba b--black-20 br2 ">
             <input class="ba b--black-30 pa1 mh3 mt3 br1" v-model="search" placeholder="Search">
