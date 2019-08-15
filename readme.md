@@ -1,20 +1,28 @@
 # localfonts
 
-There is no such thing as a good font viewer. Unless this one, of course.
+There is no such thing as a good font explorer. Unless this one, of course.
 
 ![localfonts](localfonts.png)
 
+# Dependencies
+
+- [gfonts](https://github.com/MrYakobo/gfonts)
+- php
+- coreutils
+- fc-list from [fontconfig](https://www.freedesktop.org/wiki/Software/fontconfig/)
+
 # Try it
 
-`curl git.io/fontview | bash`
+`curl -L git.io/localfonts | sh`
 
-# Dependencies
-python3, php
+# Install it
 
-This project is loosely based on [this](https://askubuntu.com/a/1005724/) AskUbuntu answer. The UI is shamelessy taken from the excellent [Google Fonts](https://fonts.google.com).
+```bash
+curl git.io/localfonts > ~/bin/localfonts
+chmod +x ~/bin/localfonts
+localfonts
+```
 
-There is a feature to install fonts from Google locally. First, select the fonts you want at [Google Fonts](https://fonts.google.com). Then, copy the `<link href="...">` tag and paste it in the install section. This will download the font in TTF and place it in `~/.local/share/fonts`.
+# Credits
 
-The script `fontview` contains a tar file with all files needed to run the web server.
-run with `curl git.io/fontview | bash`
-install with `curl git.io/fontview_install | bash`
+This project is loosely based on [this](https://askubuntu.com/a/1005724/) AskUbuntu answer. The UI is shamelessy inspired from the excellent [Google Fonts](https://fonts.google.com).

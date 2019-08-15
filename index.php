@@ -9,11 +9,14 @@
     <script src="https://unpkg.com/underscore@1.9.1/underscore-min.js"></script>
     <script src="https://unpkg.com/axios@0.2.1/dist/axios.min.js"></script>
     <link rel="stylesheet" href="https://unpkg.com/tachyons@4.11.1/css/tachyons.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
     <title>localfonts</title>
+
     <?php
-    $fonts = explode("\n",shell_exec("fc-list | cut -d':' -f2 | awk '{\$1=\$1; print}' | cut -d',' -f1 | sort -u | sed 's/\\\//g'"));
-    $users_fonts = explode("\n", shell_exec("fc-list | grep -F 'local' | cut -d':' -f2 | awk '{\$1=\$1; print}' | cut -d',' -f1 | sort -u | sed 's/\\\//g'"));
+        $fonts = explode("\n",shell_exec("fc-list | cut -d':' -f2 | awk '{\$1=\$1; print}' | cut -d',' -f1 | sort -u | sed 's/\\\//g'"));
+        $users_fonts = explode("\n", shell_exec("fc-list | grep -F 'local' | cut -d':' -f2 | awk '{\$1=\$1; print}' | cut -d',' -f1 | sort -u | sed 's/\\\//g'"));
     ?>
+
     <style>
         .ff-1 {
             font-family: 'Roboto', sans-serif;
@@ -60,10 +63,13 @@
         <div @click="gfonts = false; result = {output: '', status: 0}" :class="['z-1 w-100 h-100 absolute top-0 left-0 bg-black o-70', {'dn': !gfonts}]">
         </div>
         <div :class="['absolute br2 pa4 center-50 z-2 bg-white', {'dn': !gfonts}]">
-            <p class="f4 tl">1. Select your fonts from <a target="_blank" href="https://fonts.google.com/">Google Fonts.</a>
-                <br>2. Copy the &lt;link&gt;-tag and paste here.</p>
-            <input :class="['pa2 f6 w6', {'b--red outline-0': result.status == 1}]" v-model="gfonts_entry" placeholder='&lt;link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet"&gt;'>
-            <button class="shadow-hover br1 hover-bg-light-red hover-white pointer dit center mt1 mb3 ba ph3 pv2 tc" @click="install_gfonts">Install</button>
+            <p class="lh-copy f4 tl">1. Select your fonts from <a class="blue hover-navy" target="_blank" href="https://fonts.google.com/">Google Fonts.</a>
+                <br>2. Copy the <code>&lt;link href="..."&gt;</code> and paste here.
+                <br>3. The fonts are placed in ~/.local/share/fonts on Linux, ~/Library/fonts on Macos and in <code>$HOME/gfonts/</code> on Windows.</p>
+            <form action="" @submit="install_gfonts">
+                <input required type="text" pattern='<link href="https:\/\/fonts.googleapis\.com\/css\?family=.+?" rel="stylesheet">' :class="['pa2 f6 w6', {'b--red outline-0': result.status == 1}]" v-model="gfonts_entry" placeholder='&lt;link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet"&gt;'>
+                <button class="shadow-hover br1 hover-bg-light-red hover-white pointer dit center mt1 mb3 ba ph3 pv2 tc">Install</button>
+            </form>
             <p class="f5" v-if="result.status == -1">Installing...</p>
             <p class="f5" v-if="result.status == 1">Couldn't install fonts!<br><span class="red f6" v-html="result.output"></span></p>
             <p class="f5 green" v-if="result.status == 0" v-html="result.output"></p>
@@ -72,7 +78,7 @@
         <div class="ph3 flex flex-wrap justify-around">
             <div class="w6" v-for="(f,i) in fonts">
                 <p class="tl bt pt1 f5 ">{{f}}</p>
-                <p class="'f3 break-word'" :style="{'font-family': f, 'font-size': size + 'px' }">{{display_mode == 'custom' ? input : display[i % display.length]}}</p>
+                <p class="f3 break-word" :style="{'font-family': f + ', sans-serif', 'font-size': size + 'px' }">{{display_mode == 'custom' ? input : display[i % display.length]}}</p>
             </div>
         </div>
     </div>
@@ -133,6 +139,13 @@
         },
         methods: {
             install_gfonts() {
+                if (this.gfonts_entry == '') {
+                    this.result = {
+                        output: 'Enter an url.',
+                        status: 1
+                    }
+                    return
+                }
                 this.result.status = -1
                 axios.post('/install.php', {
                     links: this.gfonts_entry
