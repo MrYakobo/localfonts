@@ -5,7 +5,7 @@ UPPERPORT=9000
 while :; do PORT="`shuf -i $LOWERPORT-$UPPERPORT -n 1`"; ss -lpn | grep -q ":$PORT " || break; done
 
 dir=$(mktemp -d)
-SELF=${PWD}/$0
+SELF=$(readlink -nf $0)
 
 cd $dir
 sed '1,/^#EOF$/d' < "$SELF" | tar xz
