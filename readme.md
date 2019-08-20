@@ -11,11 +11,7 @@ There is no such thing as a good font explorer. Unless this one, of course.
 - coreutils
 - fc-list from [fontconfig](https://www.freedesktop.org/wiki/Software/fontconfig/)
 
-# Try it
-
-`curl -L git.io/localfonts | sh`
-
-# Install it
+# Install
 
 ```bash
 curl git.io/localfonts > ~/bin/localfonts
