@@ -1,14 +1,21 @@
-#!/bin/sh
+#!/bin/bash
 
-LOWERPORT=8000
-UPPERPORT=9000
-while :; do PORT="`shuf -i $LOWERPORT-$UPPERPORT -n 1`"; ss -lpn | grep -q ":$PORT " || break; done
+function cleanup(){
+	rm -rf $dir
+}
 
 dir=$(mktemp -d)
-SELF=$(readlink -nf $0)
+SELF="$( cd "$(dirname "$0")" ; pwd -P )/localfonts"
 
 cd $dir
 sed '1,/^#EOF$/d' < "$SELF" | tar xz
-$BROWSER "http://localhost:$PORT" &
-php -S 0.0.0.0:$PORT
-rm -rf $dir
+PORT=$(./get_free_port.py)
+
+URL="http://localhost:$PORT" 
+([[ -x $BROWSER ]] && "$BROWSER" "$URL" || \
+	path=$(which open || which xdg-open || which gnome-open || echo "chromium-browser")
+	"$path" "$URL" &>/dev/null || echo "open a browser on $URL") &
+
+trap cleanup SIGINT
+php -S "0.0.0.0:$PORT"
+

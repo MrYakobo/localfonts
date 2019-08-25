@@ -2,6 +2,8 @@
 
 There is no such thing as a good font explorer. Unless this one, of course.
 
+Tested on Linux and MacOS
+
 ![localfonts](localfonts.png)
 
 # Dependencies
@@ -9,7 +11,8 @@ There is no such thing as a good font explorer. Unless this one, of course.
 - [gfonts](https://github.com/MrYakobo/gfonts)
 - php
 - coreutils
-- fc-list from [fontconfig](https://www.freedesktop.org/wiki/Software/fontconfig/)
+- fc-list
+- python (2 or 3)
 
 # Install
 
