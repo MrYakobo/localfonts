@@ -13,7 +13,7 @@ PORT=$(./get_free_port.py)
 
 URL="http://localhost:$PORT" 
 ([[ -x $BROWSER ]] && "$BROWSER" "$URL" || \
-	path=$(which open || which xdg-open || which gnome-open || echo "chromium-browser")
+	path=$(which open 2>/dev/null || which xdg-open 2>/dev/null || which gnome-open 2>/dev/null || echo "chromium-browser")
 	"$path" "$URL" &>/dev/null || echo "open a browser on $URL") &
 
 trap cleanup SIGINT
