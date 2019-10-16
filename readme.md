@@ -12,7 +12,7 @@ Tested on Linux and MacOS
 - php
 - coreutils
 - fc-list
-- python (2 or 3)
+- python3
 
 # Install
 
